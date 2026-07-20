@@ -335,7 +335,7 @@
   /* bottom-of-page achievement (once) */
   ScrollTrigger.create({
     trigger: ".footer", start: "top 95%", once: true,
-    onEnter: () => addToast("🏅", "3-STARRED THE PORTFOLIO — recruiter mode unlocked"),
+    onEnter: () => addToast("🏅", "3-STARRED THE PORTFOLIO — true chief status"),
   });
 
   /* ══════════ EASTER EGGS ══════════ */
