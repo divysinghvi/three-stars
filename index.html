@@ -43,9 +43,57 @@
       <stop offset="0" stop-color="#FFD98A" stop-opacity=".9"/><stop offset="1" stop-color="#FF7A3D" stop-opacity="0"/>
     </radialGradient>
 
-    <!-- iso grass tile -->
+    <linearGradient id="gPurple" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8A63D2"/><stop offset="1" stop-color="#5A34A0"/>
+    </linearGradient>
+    <linearGradient id="gRoofP" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7A9CF5"/><stop offset="1" stop-color="#4A3FBF"/>
+    </linearGradient>
+    <linearGradient id="gCrystal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#DFF3FF"/><stop offset="1" stop-color="#6FA4F8"/>
+    </linearGradient>
+    <linearGradient id="gBalloon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F06A57"/><stop offset="1" stop-color="#9E2418"/>
+    </linearGradient>
+
+    <!-- iso grass tiles (flat two-tone checker, CoC-style) -->
     <g id="sym-tile">
-      <polygon points="64,0 128,32 64,64 0,32" fill="url(#gGrass)" stroke="#1F3D27" stroke-width="2"/>
+      <polygon points="64,0 128,32 64,64 0,32" fill="#3F7A4C" stroke="#1F3D27" stroke-width="2"/>
+    </g>
+    <g id="sym-tileB">
+      <polygon points="64,0 128,32 64,64 0,32" fill="#346242" stroke="#1F3D27" stroke-width="2"/>
+    </g>
+
+    <!-- TH15-style crystal wall -->
+    <g id="sym-wall2">
+      <ellipse cx="60" cy="106" rx="46" ry="10" fill="rgba(0,0,0,.28)"/>
+      <rect x="12" y="56" width="96" height="50" rx="11" fill="url(#gStone)" stroke="#39435C" stroke-width="3.5"/>
+      <polygon points="28,26 44,56 12,56" fill="url(#gCrystal)" stroke="#274B9C" stroke-width="2.5"/>
+      <polygon points="92,26 108,56 76,56" fill="url(#gCrystal)" stroke="#274B9C" stroke-width="2.5"/>
+      <polygon points="60,6 86,54 34,54" fill="url(#gCrystal)" stroke="#274B9C" stroke-width="3"/>
+      <polyline points="52,28 60,14 66,26" fill="none" stroke="#EAF6FF" stroke-width="3" opacity=".8"/>
+    </g>
+
+    <!-- balloon (air troop, ambient) -->
+    <g id="sym-balloon">
+      <ellipse cx="50" cy="40" rx="34" ry="37" fill="url(#gBalloon)" stroke="#6E1620" stroke-width="3"/>
+      <path d="M50 3 C38 20 38 60 50 77 M50 3 C62 20 62 60 50 77" fill="none" stroke="#6E1620" stroke-width="2.5" opacity=".55"/>
+      <line x1="32" y1="70" x2="42" y2="92" stroke="#33210E" stroke-width="2.5"/>
+      <line x1="68" y1="70" x2="58" y2="92" stroke="#33210E" stroke-width="2.5"/>
+      <rect x="38" y="90" width="24" height="17" rx="4" fill="url(#gWood)" stroke="#33210E" stroke-width="2.5"/>
+    </g>
+
+    <!-- barbarian (original, yelling) -->
+    <g id="sym-barb">
+      <ellipse cx="45" cy="94" rx="26" ry="7" fill="rgba(0,0,0,.25)"/>
+      <rect x="64" y="10" width="10" height="44" rx="4" fill="#C9D6EE" stroke="#525E78" stroke-width="2.5" transform="rotate(14 64 10)"/>
+      <rect x="58" y="50" width="20" height="8" rx="3" fill="url(#gGold)" stroke="#9A6A0E" stroke-width="2" transform="rotate(14 58 50)"/>
+      <rect x="30" y="52" width="30" height="34" rx="9" fill="#B98A4C" stroke="#7A5230" stroke-width="3"/>
+      <rect x="28" y="72" width="34" height="16" rx="5" fill="#6B4A2B" stroke="#4A3116" stroke-width="2.5"/>
+      <circle cx="45" cy="34" r="19" fill="#F2C89B" stroke="#B98A4C" stroke-width="3"/>
+      <path d="M27 28 L33 12 L39 24 L45 8 L51 24 L57 12 L63 28 Z" fill="#FFD23F" stroke="#C99A12" stroke-width="2.5"/>
+      <path d="M36 44 q9 6 18 0" fill="none" stroke="#8A5B33" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="38" cy="33" r="3.4" fill="#131A12"/><circle cx="52" cy="33" r="3.4" fill="#131A12"/>
     </g>
 
     <!-- gold-capped wall block -->
@@ -54,18 +102,20 @@
       <rect x="4" y="12" width="56" height="20" rx="7" fill="url(#gGold)" stroke="#9A6A0E" stroke-width="2.5"/>
     </g>
 
-    <!-- town hall -->
+    <!-- town hall (TH15-style: stone base, purple keep, crystal-blue roof, gold trim) -->
     <g id="sym-townhall">
-      <rect x="34" y="118" width="132" height="58" rx="8" fill="url(#gStone)" stroke="#39435C" stroke-width="3"/>
-      <path d="M84 176 v-30 a16 16 0 0 1 32 0 v30 Z" fill="#4A3116" stroke="#33210E" stroke-width="3"/>
-      <rect x="46" y="132" width="18" height="14" rx="3" fill="#FFDE7A" stroke="#9A6A0E" stroke-width="2"/>
-      <rect x="136" y="132" width="18" height="14" rx="3" fill="#FFDE7A" stroke="#9A6A0E" stroke-width="2"/>
-      <rect x="48" y="86" width="104" height="38" rx="6" fill="url(#gWood)" stroke="#33210E" stroke-width="3"/>
-      <rect x="88" y="94" width="24" height="18" rx="3" fill="#FFDE7A" stroke="#9A6A0E" stroke-width="2"/>
-      <polygon points="100,10 172,92 28,92" fill="url(#gRoof)" stroke="#8A3D0F" stroke-width="3"/>
-      <polygon points="100,34 148,88 52,88" fill="none" stroke="#FFC53D" stroke-width="4"/>
-      <rect x="96" y="0" width="6" height="22" fill="#5E3D20"/>
-      <path d="M102 2 L128 9 L102 17 Z" fill="#FF4D5E" stroke="#B02737" stroke-width="2"/>
+      <ellipse cx="100" cy="184" rx="82" ry="13" fill="#1C3A25" opacity=".85"/>
+      <rect x="26" y="116" width="148" height="66" rx="10" fill="url(#gStone)" stroke="#39435C" stroke-width="3.5"/>
+      <path d="M78 182 v-32 a22 22 0 0 1 44 0 v32 Z" fill="#241340" stroke="#FFC53D" stroke-width="4"/>
+      <rect x="38" y="130" width="24" height="17" rx="4" fill="#9FE8FF" stroke="#2D57C8" stroke-width="2.5"/>
+      <rect x="138" y="130" width="24" height="17" rx="4" fill="#9FE8FF" stroke="#2D57C8" stroke-width="2.5"/>
+      <rect x="42" y="82" width="116" height="38" rx="8" fill="url(#gPurple)" stroke="#31184F" stroke-width="3.5"/>
+      <rect x="88" y="90" width="24" height="20" rx="4" fill="#FFDE7A" stroke="#9A6A0E" stroke-width="2.5"/>
+      <polygon points="100,6 178,88 22,88" fill="url(#gRoofP)" stroke="#31184F" stroke-width="3.5"/>
+      <polygon points="100,30 150,84 50,84" fill="none" stroke="#FFC53D" stroke-width="4"/>
+      <polygon points="100,44 128,82 72,82" fill="#9FE8FF" opacity=".25"/>
+      <path d="M104 6 L134 14 L104 23 Z" fill="#FF4D5E" stroke="#B02737" stroke-width="2"/>
+      <circle cx="100" cy="10" r="8" fill="url(#gGold)" stroke="#9A6A0E" stroke-width="2.5"/>
     </g>
 
     <!-- cannon tower -->
@@ -194,14 +244,14 @@
       </g>
       <!-- ground: iso diamond field -->
       <g>
-        <use href="#sym-tile" x="196" y="150"/><use href="#sym-tile" x="260" y="182"/>
-        <use href="#sym-tile" x="132" y="182"/><use href="#sym-tile" x="196" y="214"/>
-        <use href="#sym-tile" x="324" y="150"/><use href="#sym-tile" x="388" y="182"/>
+        <use href="#sym-tile" x="196" y="150"/><use href="#sym-tileB" x="260" y="182"/>
+        <use href="#sym-tileB" x="132" y="182"/><use href="#sym-tile" x="196" y="214"/>
+        <use href="#sym-tileB" x="324" y="150"/><use href="#sym-tile" x="388" y="182"/>
         <use href="#sym-tile" x="324" y="214"/><use href="#sym-tile" x="260" y="118"/>
-        <use href="#sym-tile" x="68" y="150"/><use href="#sym-tile" x="452" y="150"/>
-        <use href="#sym-tile" x="132" y="118"/><use href="#sym-tile" x="388" y="118"/>
-        <use href="#sym-tile" x="260" y="246"/><use href="#sym-tile" x="132" y="246"/>
-        <use href="#sym-tile" x="388" y="246"/>
+        <use href="#sym-tile" x="68" y="150"/><use href="#sym-tileB" x="452" y="150"/>
+        <use href="#sym-tileB" x="132" y="118"/><use href="#sym-tile" x="388" y="118"/>
+        <use href="#sym-tileB" x="260" y="246"/><use href="#sym-tile" x="132" y="246"/>
+        <use href="#sym-tileB" x="388" y="246"/>
       </g>
       <!-- back walls -->
       <g class="v-walls">
@@ -239,6 +289,14 @@
   </defs>
 </svg>
 
+<!-- ══════════════ LOADING SCREEN ══════════════ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader-shield" viewBox="0 0 100 100"><path d="M50 4 92 18v34c0 26-20 38-42 44C28 90 8 78 8 52V18Z" fill="#10173A" stroke="#FFC53D" stroke-width="6"/><text x="50" y="63" font-size="36" font-weight="900" fill="#FFC53D" text-anchor="middle" font-family="Titan One, sans-serif">DS</text></svg>
+  <div class="loader-name">DIVY SINGHVI</div>
+  <div class="loader-bar"><i id="loaderBar"></i></div>
+  <p class="loader-tip" id="loaderTip">Tip: scroll = raid.</p>
+</div>
+
 <!-- ══════════════ HUD ══════════════ -->
 <header class="hud" id="hud">
   <a class="hud-logo" href="#top" aria-label="Divy Singhvi home">
@@ -267,6 +325,7 @@
   <section class="scene" id="approach" data-chapter="THE APPROACH">
     <div class="stage">
       <div class="stars-layer" id="starfield" aria-hidden="true"></div>
+      <svg viewBox="0 0 100 110" class="balloon" id="balloon" aria-hidden="true"><use href="#sym-balloon"/></svg>
       <div class="moon" aria-hidden="true"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="url(#gMoon)"/><circle cx="34" cy="38" r="7" fill="#C9D6EE" opacity=".55"/><circle cx="62" cy="60" r="10" fill="#C9D6EE" opacity=".45"/><circle cx="58" cy="30" r="4.5" fill="#C9D6EE" opacity=".5"/></svg></div>
 
       <div class="village-reveal" aria-hidden="true">

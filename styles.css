@@ -93,7 +93,13 @@ a{color:inherit}
   position:absolute;top:16vh;left:50%;transform:translateX(-50%);
   text-align:center;z-index:6;width:min(90vw,760px);
 }
-.plate-no{font-family:"JetBrains Mono";font-size:12px;letter-spacing:.5em;color:var(--gold);margin-bottom:10px}
+.plate-no{
+  font-family:"JetBrains Mono";font-size:12px;letter-spacing:.34em;
+  display:inline-block;color:#4A3116;font-weight:700;margin-bottom:12px;
+  background:linear-gradient(180deg,var(--gold-glow),var(--gold-deep));
+  padding:7px 22px;
+  clip-path:polygon(10% 0,90% 0,100% 50%,90% 100%,10% 100%,0 50%);
+}
 .plate-title{
   font-family:"Titan One";font-size:clamp(34px,6vw,72px);line-height:1;
   color:var(--text);
@@ -173,23 +179,17 @@ a{color:inherit}
 /* ─────────── scene 2 · walls / army camp ─────────── */
 #walls .stage{background:linear-gradient(180deg,#0B1230,#0E1638)}
 #walls .chapter-plate{z-index:12}
-.wall-grid{
-  position:absolute;inset:0;z-index:10;display:grid;
-  grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(5,1fr);
-  gap:4px;padding:4px;
+.wall-grid{position:absolute;inset:0;z-index:10}
+.wall-scene{position:absolute;inset:0}
+.wall-grass{
+  position:absolute;left:0;right:0;bottom:0;height:24vh;
+  background:linear-gradient(180deg,#3C7548,#28502F);border-top:6px solid #1F3D27;
 }
-.wall-block{
-  border-radius:10px;
-  background:linear-gradient(180deg,#C3CCDE 0%,#8492AE 55%,#5D6982 100%);
-  border:3px solid #39435C;border-top-color:#E5EAF4;
-  box-shadow:inset 0 -8px 0 rgba(0,0,0,.18);
-  position:relative;
-}
-.wall-block::after{
-  content:"";position:absolute;left:12%;right:12%;top:10%;height:22%;
-  border-radius:8px;background:linear-gradient(180deg,var(--gold-glow),var(--gold-deep));
-  border:2px solid #9A6A0E;opacity:.9;
-}
+.wall-line{position:absolute;left:-4vw;right:-4vw;display:flex;justify-content:space-between}
+.wall-line-back{bottom:20vh;transform:scale(.88);filter:brightness(.8)}
+.wall-line-front{bottom:9vh}
+.wall-piece{width:clamp(70px,10vw,150px);flex-shrink:0;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35))}
+.impact-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
 .troop-wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;z-index:3}
 .troop-head{padding:calc(var(--hud-h) + 2vh) 6vw 0;margin-bottom:4vh}
 .troop-title{font-family:"Titan One";font-size:clamp(26px,3.6vw,44px);color:var(--text);text-shadow:0 3px 0 rgba(0,0,0,.35)}
@@ -432,13 +432,41 @@ a{color:inherit}
   white-space:nowrap;transform:rotate(-5deg);
 }
 
+/* ─────────── loading screen ─────────── */
+.loader{
+  position:fixed;inset:0;z-index:120;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  background:linear-gradient(180deg,#6FB9FF 0%,#BFE2FF 58%,#4E9C3F 58.3%,#2F6B33 100%);
+}
+.loader-shield{width:clamp(90px,12vw,150px);filter:drop-shadow(0 10px 24px rgba(0,0,0,.35))}
+.loader-name{
+  font-family:"Titan One";font-size:clamp(26px,4vw,44px);color:#fff;
+  -webkit-text-stroke:2px #1F3D63;text-shadow:0 4px 0 rgba(0,0,0,.25);letter-spacing:.04em;
+}
+.loader-bar{
+  width:min(64vw,420px);height:16px;border-radius:99px;
+  background:rgba(0,0,0,.3);border:3px solid rgba(255,255,255,.65);overflow:hidden;
+}
+.loader-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold-deep),var(--gold-glow));border-radius:99px}
+.loader-tip{
+  font-family:"JetBrains Mono";font-size:12.5px;color:#14340F;font-weight:700;
+  background:rgba(255,255,255,.5);padding:7px 14px;border-radius:99px;
+}
+
+/* ─────────── ambient sprites ─────────── */
+.balloon{
+  position:absolute;top:13vh;left:0;width:clamp(46px,6vw,88px);z-index:1;opacity:.95;
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,.35));
+}
+.builder-sprite{pointer-events:auto;cursor:pointer}
+
 /* ─────────── reduced motion ─────────── */
 @media (prefers-reduced-motion: reduce){
   .scene{height:auto;min-height:60vh}
   .stage{position:relative;inset:auto;overflow:visible;padding:12vh 0}
   .chapter-plate,.hero-copy,.storage-row,.loot-strip,.th-wrap,.th-about,
   .rebuild-copy,.village-rebuild,.village-reveal,.defense-col,.troop-wrap{position:relative;top:auto;left:auto;bottom:auto;transform:none;translate:none;margin:4vh auto}
-  .cloud,.raid-stamp,.wall-grid,.destroy-stamp,.scroll-hint{display:none}
+  .cloud,.raid-stamp,.wall-grid,.destroy-stamp,.scroll-hint,.loader,.balloon{display:none}
   .troop-track{width:auto;flex-wrap:wrap;justify-content:center}
   .defense-col{padding-top:0}
   .hud{opacity:1;transform:none}
@@ -453,5 +481,4 @@ a{color:inherit}
   .defense-info li{text-align:left}
   .storage-row{flex-direction:column;top:26vh}
   .loot-strip{flex-wrap:wrap;justify-content:center;gap:14px;width:88vw}
-  .wall-grid{grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(7,1fr)}
 }

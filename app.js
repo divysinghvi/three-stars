@@ -48,8 +48,14 @@
 
   function buildWallGrid() {
     const grid = $("#wallGrid");
-    const cells = matchMedia("(max-width:720px)").matches ? 35 : 40;
-    grid.innerHTML = Array.from({ length: cells }, () => `<div class="wall-block"></div>`).join("");
+    const piece = `<svg class="wall-piece" viewBox="0 0 120 120"><use href="#sym-wall2"/></svg>`;
+    grid.innerHTML = `
+      <div class="wall-scene" id="wallScene">
+        <div class="wall-grass"></div>
+        <div class="wall-line wall-line-back">${piece.repeat(9)}</div>
+        <div class="wall-line wall-line-front">${piece.repeat(8)}</div>
+        <div class="impact-flash" id="impactFlash"></div>
+      </div>`;
   }
 
   function buildStarfield() {
@@ -149,6 +155,30 @@
     gsap.ticker.lagSmoothing(0);
   }
 
+  /* ══════════ LOADING SCREEN (CoC-style clouds-and-tips) ══════════ */
+  {
+    const loader = $("#loader");
+    if (JUMP !== null || navigator.webdriver) loader.remove();
+    else {
+      const TIPS = [
+        "Tip: real chiefs know the code. ↑↑↓↓←→←→BA",
+        "Tip: the Town Hall hates being clicked three times.",
+        "Tip: type “hogrider” anywhere. You know you want to.",
+        "Tip: this village was built with 0 gems and 1 keyboard.",
+        "Tip: scroll = raid. No troops required.",
+        "Tip: type “barbarian” if you need to yell.",
+      ];
+      $("#loaderTip").textContent = TIPS[Math.floor(Math.random() * TIPS.length)];
+      if (lenis) lenis.stop();
+      gsap.timeline()
+        .to("#loaderBar", { width: "100%", duration: 1.4, ease: "power1.inOut" })
+        .to(loader, {
+          yPercent: -100, duration: .6, ease: "power3.inOut",
+          onComplete: () => { loader.remove(); if (lenis) lenis.start(); },
+        }, "+=.15");
+    }
+  }
+
   /* ══════════ SCENE 1 · THE APPROACH ══════════ */
   {
     const tl = gsap.timeline({
@@ -191,15 +221,18 @@
     });
     tl.fromTo("#walls .chapter-plate", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .07 }, .01)
       .to("#walls .chapter-plate", { opacity: 0, y: -80, duration: .06 }, .16)
-      .to("#wallGrid .wall-block", {
-        x: () => gsap.utils.random(-70, 70) + "vw",
-        y: () => gsap.utils.random(-60, 60) + "vh",
-        rotation: () => gsap.utils.random(-260, 260),
+      .to("#impactFlash", { keyframes: [{ opacity: .85 }, { opacity: 0 }], duration: .05 }, .2)
+      .to("#wallScene", { keyframes: [{ x: -14 }, { x: 12 }, { x: -8 }, { x: 6 }, { x: 0 }], duration: .08 }, .2)
+      .to(".wall-piece", {
+        xPercent: () => gsap.utils.random(-320, 320),
+        y: () => gsap.utils.random(-70, -16) + "vh",
+        rotation: () => gsap.utils.random(-420, 420),
         opacity: 0,
-        duration: .22,
+        duration: .24,
         ease: "power2.in",
-        stagger: { amount: .1, from: "center", grid: "auto" },
-      }, .2)
+        stagger: { amount: .08, from: "center" },
+      }, .22)
+      .to(".wall-grass", { yPercent: 130, opacity: 0, duration: .14 }, .3)
       .fromTo(".troop-head", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: .08 }, .3)
       .fromTo(".troop-card", { opacity: 0, y: 90, rotation: 3 }, { opacity: 1, y: 0, rotation: 0, duration: .1, stagger: .012, ease: "back.out(1.6)" }, .34)
       .to(track, {
@@ -310,16 +343,28 @@
     gsap.to(s, { opacity: .1, duration: gsap.utils.random(1.2, 3), repeat: -1, yoyo: true, delay: Math.random() * 2, ease: "sine.inOut" });
   });
 
-  /* builder hammer swing (infinite) */
-  gsap.to("#builderSprite .builder-arm", { rotation: -38, transformOrigin: "10% 80%", duration: .4, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  /* builder hammer swing (infinite) — clickable for a morale boost */
+  const hammer = gsap.to("#builderSprite .builder-arm", { rotation: -38, transformOrigin: "10% 80%", duration: .4, repeat: -1, yoyo: true, ease: "power1.inOut" });
+  $("#builderSprite").addEventListener("click", () => {
+    addToast("🔨", "+1 morale — the builder hammers faster");
+    hammer.timeScale(3);
+    gsap.delayedCall(3, () => hammer.timeScale(1));
+    gsap.fromTo("#builderSprite", { y: 0 }, { y: -18, duration: .18, yoyo: true, repeat: 1, ease: "power2.out" });
+  });
 
-  /* hero entrance (load anim, chars) */
+  /* hero entrance (load anim, chars) — skipped under ?jump so shots land settled */
   {
     const h = $("#heroTitle");
     h.innerHTML = [...h.textContent].map(c => `<span class="ch">${c === " " ? "&nbsp;" : c}</span>`).join("");
-    gsap.from("#heroTitle .ch", { yPercent: 130, opacity: 0, duration: .9, stagger: .045, ease: "back.out(1.8)", delay: .3 });
-    gsap.from(".hero-kicker, .hero-sub, .hero-tag", { opacity: 0, y: 24, duration: .8, stagger: .12, delay: 1.1, ease: "power2.out" });
+    if (JUMP === null) {
+      gsap.from("#heroTitle .ch", { yPercent: 130, opacity: 0, duration: .9, stagger: .045, ease: "back.out(1.8)", delay: 2.1 });
+      gsap.from(".hero-kicker, .hero-sub, .hero-tag", { opacity: 0, y: 24, duration: .8, stagger: .12, delay: 2.8, ease: "power2.out" });
+    }
   }
+
+  /* balloon drifting across the hero sky */
+  gsap.fromTo("#balloon", { x: "-14vw" }, { x: "114vw", duration: 70, repeat: -1, ease: "none", delay: 5 });
+  gsap.to("#balloon", { y: 26, duration: 3.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
   /* alliance entrances */
   gsap.from(".alliance-inner > *", {
@@ -385,6 +430,38 @@
     }
   }
 
+  function barbCharge() {
+    const b = document.createElement("div");
+    b.className = "egg-sprite";
+    b.style.cssText = "width:110px;left:-140px;bottom:14vh";
+    b.innerHTML = `<svg viewBox="0 0 90 100"><use href="#sym-barb"/></svg>`;
+    eggLayer.appendChild(b);
+    const yell = document.createElement("div");
+    yell.className = "egg-yell";
+    yell.textContent = "AAAAAAAH!";
+    eggLayer.appendChild(yell);
+    gsap.fromTo(yell, { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2)" });
+    gsap.to(yell, { opacity: 0, duration: .35, delay: 1, onComplete: () => yell.remove() });
+    gsap.to(b, { x: innerWidth + 300, duration: 1.8, ease: "power1.in", onComplete: () => b.remove() });
+    gsap.to(b, { y: -20, duration: .16, repeat: 10, yoyo: true, ease: "sine.inOut" });
+  }
+
+  /* ambient scurries: every so often a troop crosses the bottom of the screen */
+  function scurryOnce() {
+    const kind = gsap.utils.random(["goblin", "hog", "barb"]);
+    const size = kind === "hog" ? 120 : 68;
+    const vb = kind === "hog" ? "0 0 150 110" : kind === "goblin" ? "0 0 90 90" : "0 0 90 100";
+    const el = document.createElement("div");
+    el.className = "egg-sprite";
+    el.style.cssText = `width:${size}px;left:-150px;bottom:${gsap.utils.random(3, 9).toFixed(1)}vh`;
+    el.innerHTML = `<svg viewBox="${vb}"><use href="#sym-${kind}"/></svg>`;
+    eggLayer.appendChild(el);
+    gsap.to(el, { x: innerWidth + 320, duration: gsap.utils.random(5, 9), ease: "none", onComplete: () => el.remove() });
+    gsap.to(el, { y: -14, duration: .3, repeat: 20, yoyo: true, ease: "sine.inOut" });
+    gsap.delayedCall(gsap.utils.random(40, 85), scurryOnce);
+  }
+  gsap.delayedCall(18, scurryOnce);
+
   /* key sequences */
   const KONAMI = ["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];
   let keyBuf = [];
@@ -397,6 +474,8 @@
       letterBuf = (letterBuf + e.key).slice(-24);
       if (letterBuf.endsWith("hogrider")) { letterBuf = ""; hogRide(); }
       if (letterBuf.endsWith("mentalasylum")) { letterBuf = ""; addToast("🏰", "Clan recognized. Welcome home, chief."); }
+      if (letterBuf.endsWith("barbarian")) { letterBuf = ""; barbCharge(); }
+      if (letterBuf.endsWith("gradr")) { letterBuf = ""; addToast("🇸🇪", "Hej chief! Shipping for Gradr from the north."); }
     }
   });
 
