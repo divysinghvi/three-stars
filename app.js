@@ -205,6 +205,9 @@
       .fromTo(".village-reveal", { scale: .84, yPercent: 46 }, { scale: 1, yPercent: 0, ease: "power1.out" }, 0)
       .to(".moon", { yPercent: -40, opacity: .5 }, .3)
       .fromTo("#raidStamp", { opacity: 0, scale: 2.8, rotation: -7 }, { opacity: 1, scale: 1, rotation: -7, duration: .12, ease: "back.out(2)" }, .74)
+      /* camera dives into the village → scene 1 exits as empty sky, no visible seam */
+      .to(".village-reveal", { scale: 1.6, yPercent: 26, opacity: 0, ease: "power2.in", duration: .18 }, .82)
+      .to([".moon", "#balloon", ".stars-layer"], { opacity: 0, duration: .12 }, .86)
       .to("#raidStamp", { opacity: 0, scale: 1.2, duration: .1, ease: "power2.in" }, .92);
   }
 

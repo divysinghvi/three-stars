@@ -177,7 +177,7 @@ a{color:inherit}
 @keyframes wheel{0%,100%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}}
 
 /* ─────────── scene 2 · walls / army camp ─────────── */
-#walls .stage{background:linear-gradient(180deg,#0B1230,#0E1638)}
+#walls .stage{background:linear-gradient(180deg,#141D4A,#0E1638)}
 #walls .chapter-plate{z-index:12}
 .wall-grid{position:absolute;inset:0;z-index:10}
 .wall-scene{position:absolute;inset:0}
