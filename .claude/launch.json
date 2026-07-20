@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "three-stars",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4507", "--directory", "/Users/divysinghvi/Desktop/divy-three-stars"],
+      "port": 4507
+    }
+  ]
+}
